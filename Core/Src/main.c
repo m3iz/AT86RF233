@@ -36,6 +36,14 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 /* Constants */
+#define AT86RF2XX_IRQ_STATUS_MASK__BAT_LOW                      (0x80)
+#define AT86RF2XX_IRQ_STATUS_MASK__TRX_UR                       (0x40)
+#define AT86RF2XX_IRQ_STATUS_MASK__AMI                          (0x20)
+#define AT86RF2XX_IRQ_STATUS_MASK__CCA_ED_DONE                  (0x10)
+#define AT86RF2XX_IRQ_STATUS_MASK__TRX_END                      (0x08)
+#define AT86RF2XX_IRQ_STATUS_MASK__RX_START                     (0x04)
+#define AT86RF2XX_IRQ_STATUS_MASK__PLL_UNLOCK                   (0x02)
+#define AT86RF2XX_IRQ_STATUS_MASK__PLL_LOCK                     (0x01)
 
 #define CSRESET HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
 #define CSSET HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
@@ -284,7 +292,10 @@ int main(void)
 	    // during RX_ON state, listen for incoming frame, BUSY_RX -> receiving frame, interrupt IRQ_TRX_END -> done
 	    HAL_Delay(1);
 	  }
+	  if (Interrupt & AT86RF2XX_IRQ_STATUS_MASK__RX_START){
+		  int abba = 12;
 
+	  }
 	  if (Interrupt & IRQ_TRX_END) {
 	    // If we receive something, state will be BUSY_RX, interrupt IRQ_TRX_END when receive done
 	   // readFrame();

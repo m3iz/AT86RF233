@@ -1,5 +1,6 @@
 #MicroXplorer Configuration settings - do not modify
 File.Version=6
+GPIO.groupedBy=Group By Peripherals
 KeepUserPlacement=false
 Mcu.Family=STM32L4
 Mcu.IP0=NVIC
@@ -56,8 +57,9 @@ PB8.GPIOParameters=GPIO_Label
 PB8.GPIO_Label=RESET
 PB8.Locked=true
 PB8.Signal=GPIO_Output
-PC10.GPIOParameters=GPIO_Label
+PC10.GPIOParameters=GPIO_Label,GPIO_Mode
 PC10.GPIO_Label=IRQ
+PC10.GPIO_Mode=GPIO_MODE_INPUT
 PC10.Locked=true
 PC10.Signal=GPIO_Input
 PC11.GPIOParameters=GPIO_Label
@@ -126,4 +128,4 @@ SPI3.VirtualType=VM_MASTER
 VP_SYS_VS_Systick.Mode=SysTick
 VP_SYS_VS_Systick.Signal=SYS_VS_Systick
 board=custom
-isbadioc=false
+isbadioc=true
