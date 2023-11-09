@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0002000c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000853c  00000000  00000000  0002003c  2**0
+ 12 .debug_info   0000852c  00000000  00000000  0002003c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00001571  00000000  00000000  00028578  2**0
+ 13 .debug_abbrev 00001571  00000000  00000000  00028568  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000838  00000000  00000000  00029af0  2**3
+ 14 .debug_aranges 00000838  00000000  00000000  00029ae0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000790  00000000  00000000  0002a328  2**3
+ 15 .debug_ranges 00000790  00000000  00000000  0002a318  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00025197  00000000  00000000  0002aab8  2**0
+ 16 .debug_macro  00025197  00000000  00000000  0002aaa8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00007fa0  00000000  00000000  0004fc4f  2**0
+ 17 .debug_line   00007f9e  00000000  00000000  0004fc3f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000e40cc  00000000  00000000  00057bef  2**0
+ 18 .debug_str    000e40c2  00000000  00000000  00057bdd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  0013bcbb  2**0
+ 19 .comment      00000053  00000000  00000000  0013bc9f  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002050  00000000  00000000  0013bd10  2**2
+ 20 .debug_frame  00002050  00000000  00000000  0013bcf4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -914,19 +914,19 @@ void at86rf233_init(){
 	HAL_GPIO_WritePin(SLP_GPIO_Port, SLP_Pin, GPIO_PIN_RESET);
  80006fe:	2200      	movs	r2, #0
  8000700:	2140      	movs	r1, #64	; 0x40
- 8000702:	4839      	ldr	r0, [pc, #228]	; (80007e8 <at86rf233_init+0xf0>)
+ 8000702:	483b      	ldr	r0, [pc, #236]	; (80007f0 <at86rf233_init+0xf8>)
  8000704:	f000 fe2a 	bl	800135c <HAL_GPIO_WritePin>
 	//digitalWrite(SLP_TR, LOW);
 	HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
  8000708:	2201      	movs	r2, #1
  800070a:	f44f 7180 	mov.w	r1, #256	; 0x100
- 800070e:	4836      	ldr	r0, [pc, #216]	; (80007e8 <at86rf233_init+0xf0>)
+ 800070e:	4838      	ldr	r0, [pc, #224]	; (80007f0 <at86rf233_init+0xf8>)
  8000710:	f000 fe24 	bl	800135c <HAL_GPIO_WritePin>
 	//digitalWrite(RESET, HIGH);
 	HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
  8000714:	2201      	movs	r2, #1
  8000716:	f44f 6100 	mov.w	r1, #2048	; 0x800
- 800071a:	4834      	ldr	r0, [pc, #208]	; (80007ec <at86rf233_init+0xf4>)
+ 800071a:	4836      	ldr	r0, [pc, #216]	; (80007f4 <at86rf233_init+0xfc>)
  800071c:	f000 fe1e 	bl	800135c <HAL_GPIO_WritePin>
 	//digitalWrite(SEL, HIGH);
 
@@ -938,23 +938,23 @@ void at86rf233_init(){
 	    if (part_num != 0xb) {
  800072a:	79fb      	ldrb	r3, [r7, #7]
  800072c:	2b0b      	cmp	r3, #11
- 800072e:	d153      	bne.n	80007d8 <at86rf233_init+0xe0>
+ 800072e:	d156      	bne.n	80007de <at86rf233_init+0xe6>
 
 	        return -1;
 	    }
 	//
 	hardware_reset();
- 8000730:	f000 f882 	bl	8000838 <hardware_reset>
+ 8000730:	f000 f886 	bl	8000840 <hardware_reset>
 	reset_state_machine();
- 8000734:	f000 f86f 	bl	8000816 <reset_state_machine>
+ 8000734:	f000 f873 	bl	800081e <reset_state_machine>
 	//
 
 	 seq_nr = 0;
- 8000738:	4b2d      	ldr	r3, [pc, #180]	; (80007f0 <at86rf233_init+0xf8>)
+ 8000738:	4b2f      	ldr	r3, [pc, #188]	; (80007f8 <at86rf233_init+0x100>)
  800073a:	2200      	movs	r2, #0
  800073c:	701a      	strb	r2, [r3, #0]
 	 options = 0;
- 800073e:	4b2d      	ldr	r3, [pc, #180]	; (80007f4 <at86rf233_init+0xfc>)
+ 800073e:	4b2f      	ldr	r3, [pc, #188]	; (80007fc <at86rf233_init+0x104>)
  8000740:	2200      	movs	r2, #0
  8000742:	801a      	strh	r2, [r3, #0]
 
@@ -967,7 +967,7 @@ void at86rf233_init(){
  800074a:	2023      	movs	r0, #35	; 0x23
  800074c:	f7ff ff93 	bl	8000676 <set_pan>
 	set_addr_long(0x2222334445666768);
- 8000750:	a123      	add	r1, pc, #140	; (adr r1, 80007e0 <at86rf233_init+0xe8>)
+ 8000750:	a125      	add	r1, pc, #148	; (adr r1, 80007e8 <at86rf233_init+0xf0>)
  8000752:	e9d1 0100 	ldrd	r0, r1, [r1]
  8000756:	f7ff ff54 	bl	8000602 <set_addr_long>
 
@@ -1009,229 +1009,230 @@ void at86rf233_init(){
  8000792:	200c      	movs	r0, #12
  8000794:	f7ff fd4a 	bl	800022c <writeRegister>
 
+	readRegister(0x1C);
+ 8000798:	201c      	movs	r0, #28
+ 800079a:	f7ff fd15 	bl	80001c8 <readRegister>
 
 
 	/* disable clock output to save power */
     uint8_t tmp = readRegister(AT86RF2XX_REG__TRX_CTRL_0);
- 8000798:	2003      	movs	r0, #3
- 800079a:	f7ff fd15 	bl	80001c8 <readRegister>
- 800079e:	4603      	mov	r3, r0
- 80007a0:	71bb      	strb	r3, [r7, #6]
+ 800079e:	2003      	movs	r0, #3
+ 80007a0:	f7ff fd12 	bl	80001c8 <readRegister>
+ 80007a4:	4603      	mov	r3, r0
+ 80007a6:	71bb      	strb	r3, [r7, #6]
     tmp &= ~(AT86RF2XX_TRX_CTRL_0_MASK__CLKM_CTRL);
- 80007a2:	79bb      	ldrb	r3, [r7, #6]
- 80007a4:	f023 0307 	bic.w	r3, r3, #7
- 80007a8:	71bb      	strb	r3, [r7, #6]
+ 80007a8:	79bb      	ldrb	r3, [r7, #6]
+ 80007aa:	f023 0307 	bic.w	r3, r3, #7
+ 80007ae:	71bb      	strb	r3, [r7, #6]
     tmp &= ~(AT86RF2XX_TRX_CTRL_0_MASK__CLKM_SHA_SEL);
- 80007aa:	79bb      	ldrb	r3, [r7, #6]
- 80007ac:	f023 0308 	bic.w	r3, r3, #8
- 80007b0:	71bb      	strb	r3, [r7, #6]
+ 80007b0:	79bb      	ldrb	r3, [r7, #6]
+ 80007b2:	f023 0308 	bic.w	r3, r3, #8
+ 80007b6:	71bb      	strb	r3, [r7, #6]
     tmp |= (AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__OFF);
     writeRegister(AT86RF2XX_REG__TRX_CTRL_0, tmp);
- 80007b2:	79bb      	ldrb	r3, [r7, #6]
- 80007b4:	4619      	mov	r1, r3
- 80007b6:	2003      	movs	r0, #3
- 80007b8:	f7ff fd38 	bl	800022c <writeRegister>
+ 80007b8:	79bb      	ldrb	r3, [r7, #6]
+ 80007ba:	4619      	mov	r1, r3
+ 80007bc:	2003      	movs	r0, #3
+ 80007be:	f7ff fd35 	bl	800022c <writeRegister>
 
 	    /* enable interrupts */
 	writeRegister(AT86RF2XX_REG__IRQ_MASK, AT86RF2XX_IRQ_STATUS_MASK__TRX_END);
- 80007bc:	2108      	movs	r1, #8
- 80007be:	200e      	movs	r0, #14
- 80007c0:	f7ff fd34 	bl	800022c <writeRegister>
+ 80007c2:	2108      	movs	r1, #8
+ 80007c4:	200e      	movs	r0, #14
+ 80007c6:	f7ff fd31 	bl	800022c <writeRegister>
 
 	    /* clear interrupt flags */
 	readRegister(AT86RF2XX_REG__IRQ_STATUS);
- 80007c4:	200f      	movs	r0, #15
- 80007c6:	f7ff fcff 	bl	80001c8 <readRegister>
+ 80007ca:	200f      	movs	r0, #15
+ 80007cc:	f7ff fcfc 	bl	80001c8 <readRegister>
 
 	set_state(6); //16 - RX_ACACK 6 - rx 25 - tx
- 80007ca:	2006      	movs	r0, #6
- 80007cc:	f7ff fecb 	bl	8000566 <set_state>
+ 80007d0:	2006      	movs	r0, #6
+ 80007d2:	f7ff fec8 	bl	8000566 <set_state>
 	  //Serial.print("Detected part nr: 0x");
 	  //Serial.println(readRegister(0x1C), HEX);
 	  //Serial.print("Version: 0x");
 	  //Serial.println(readRegister(0x1D), HEX);
 
 	HAL_Delay(1);
- 80007d0:	2001      	movs	r0, #1
- 80007d2:	f000 fb0f 	bl	8000df4 <HAL_Delay>
- 80007d6:	e000      	b.n	80007da <at86rf233_init+0xe2>
+ 80007d6:	2001      	movs	r0, #1
+ 80007d8:	f000 fb0c 	bl	8000df4 <HAL_Delay>
+ 80007dc:	e000      	b.n	80007e0 <at86rf233_init+0xe8>
 	        return -1;
- 80007d8:	bf00      	nop
+ 80007de:	bf00      	nop
 }
- 80007da:	3708      	adds	r7, #8
- 80007dc:	46bd      	mov	sp, r7
- 80007de:	bd80      	pop	{r7, pc}
- 80007e0:	45666768 	.word	0x45666768
- 80007e4:	22223344 	.word	0x22223344
- 80007e8:	48000400 	.word	0x48000400
- 80007ec:	48000800 	.word	0x48000800
- 80007f0:	20000092 	.word	0x20000092
- 80007f4:	20000090 	.word	0x20000090
+ 80007e0:	3708      	adds	r7, #8
+ 80007e2:	46bd      	mov	sp, r7
+ 80007e4:	bd80      	pop	{r7, pc}
+ 80007e6:	bf00      	nop
+ 80007e8:	45666768 	.word	0x45666768
+ 80007ec:	22223344 	.word	0x22223344
+ 80007f0:	48000400 	.word	0x48000400
+ 80007f4:	48000800 	.word	0x48000800
+ 80007f8:	20000092 	.word	0x20000092
+ 80007fc:	20000090 	.word	0x20000090
 
-080007f8 <force_trx_off>:
+08000800 <force_trx_off>:
 void force_trx_off()
 {
- 80007f8:	b580      	push	{r7, lr}
- 80007fa:	af00      	add	r7, sp, #0
+ 8000800:	b580      	push	{r7, lr}
+ 8000802:	af00      	add	r7, sp, #0
     writeRegister(AT86RF2XX_REG__TRX_STATE, AT86RF2XX_TRX_STATE__FORCE_TRX_OFF);
- 80007fc:	2103      	movs	r1, #3
- 80007fe:	2002      	movs	r0, #2
- 8000800:	f7ff fd14 	bl	800022c <writeRegister>
+ 8000804:	2103      	movs	r1, #3
+ 8000806:	2002      	movs	r0, #2
+ 8000808:	f7ff fd10 	bl	800022c <writeRegister>
     while (get_status() != AT86RF2XX_STATE_TRX_OFF);
- 8000804:	bf00      	nop
- 8000806:	f7ff fd41 	bl	800028c <get_status>
- 800080a:	4603      	mov	r3, r0
- 800080c:	2b08      	cmp	r3, #8
- 800080e:	d1fa      	bne.n	8000806 <force_trx_off+0xe>
+ 800080c:	bf00      	nop
+ 800080e:	f7ff fd3d 	bl	800028c <get_status>
+ 8000812:	4603      	mov	r3, r0
+ 8000814:	2b08      	cmp	r3, #8
+ 8000816:	d1fa      	bne.n	800080e <force_trx_off+0xe>
 }
- 8000810:	bf00      	nop
- 8000812:	bf00      	nop
- 8000814:	bd80      	pop	{r7, pc}
+ 8000818:	bf00      	nop
+ 800081a:	bf00      	nop
+ 800081c:	bd80      	pop	{r7, pc}
 
-08000816 <reset_state_machine>:
+0800081e <reset_state_machine>:
 void reset_state_machine()
 {
- 8000816:	b580      	push	{r7, lr}
- 8000818:	b082      	sub	sp, #8
- 800081a:	af00      	add	r7, sp, #0
+ 800081e:	b580      	push	{r7, lr}
+ 8000820:	b082      	sub	sp, #8
+ 8000822:	af00      	add	r7, sp, #0
 
     //assert_awake();
 
     /* Wait for any state transitions to complete before forcing TRX_OFF */
     do {
         old_state = get_status();
- 800081c:	f7ff fd36 	bl	800028c <get_status>
- 8000820:	4603      	mov	r3, r0
- 8000822:	71fb      	strb	r3, [r7, #7]
+ 8000824:	f7ff fd32 	bl	800028c <get_status>
+ 8000828:	4603      	mov	r3, r0
+ 800082a:	71fb      	strb	r3, [r7, #7]
     } while (old_state == AT86RF2XX_STATE_IN_PROGRESS);
- 8000824:	79fb      	ldrb	r3, [r7, #7]
- 8000826:	2b1f      	cmp	r3, #31
- 8000828:	d0f8      	beq.n	800081c <reset_state_machine+0x6>
+ 800082c:	79fb      	ldrb	r3, [r7, #7]
+ 800082e:	2b1f      	cmp	r3, #31
+ 8000830:	d0f8      	beq.n	8000824 <reset_state_machine+0x6>
 
     force_trx_off();
- 800082a:	f7ff ffe5 	bl	80007f8 <force_trx_off>
+ 8000832:	f7ff ffe5 	bl	8000800 <force_trx_off>
 }
- 800082e:	bf00      	nop
- 8000830:	3708      	adds	r7, #8
- 8000832:	46bd      	mov	sp, r7
- 8000834:	bd80      	pop	{r7, pc}
+ 8000836:	bf00      	nop
+ 8000838:	3708      	adds	r7, #8
+ 800083a:	46bd      	mov	sp, r7
+ 800083c:	bd80      	pop	{r7, pc}
 	...
 
-08000838 <hardware_reset>:
+08000840 <hardware_reset>:
 
 void hardware_reset(void){
- 8000838:	b580      	push	{r7, lr}
- 800083a:	af00      	add	r7, sp, #0
+ 8000840:	b580      	push	{r7, lr}
+ 8000842:	af00      	add	r7, sp, #0
 
 	    /* trigger hardware reset */
 
 		HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_RESET);
- 800083c:	2200      	movs	r2, #0
- 800083e:	f44f 7180 	mov.w	r1, #256	; 0x100
- 8000842:	4808      	ldr	r0, [pc, #32]	; (8000864 <hardware_reset+0x2c>)
- 8000844:	f000 fd8a 	bl	800135c <HAL_GPIO_WritePin>
+ 8000844:	2200      	movs	r2, #0
+ 8000846:	f44f 7180 	mov.w	r1, #256	; 0x100
+ 800084a:	4808      	ldr	r0, [pc, #32]	; (800086c <hardware_reset+0x2c>)
+ 800084c:	f000 fd86 	bl	800135c <HAL_GPIO_WritePin>
 	    HAL_Delay(AT86RF2XX_RESET_PULSE_WIDTH);
- 8000848:	2001      	movs	r0, #1
- 800084a:	f000 fad3 	bl	8000df4 <HAL_Delay>
+ 8000850:	2001      	movs	r0, #1
+ 8000852:	f000 facf 	bl	8000df4 <HAL_Delay>
 	    HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
- 800084e:	2201      	movs	r2, #1
- 8000850:	f44f 7180 	mov.w	r1, #256	; 0x100
- 8000854:	4803      	ldr	r0, [pc, #12]	; (8000864 <hardware_reset+0x2c>)
- 8000856:	f000 fd81 	bl	800135c <HAL_GPIO_WritePin>
+ 8000856:	2201      	movs	r2, #1
+ 8000858:	f44f 7180 	mov.w	r1, #256	; 0x100
+ 800085c:	4803      	ldr	r0, [pc, #12]	; (800086c <hardware_reset+0x2c>)
+ 800085e:	f000 fd7d 	bl	800135c <HAL_GPIO_WritePin>
 	    HAL_Delay(AT86RF2XX_RESET_PULSE_WIDTH);
- 800085a:	2001      	movs	r0, #1
- 800085c:	f000 faca 	bl	8000df4 <HAL_Delay>
+ 8000862:	2001      	movs	r0, #1
+ 8000864:	f000 fac6 	bl	8000df4 <HAL_Delay>
 }
- 8000860:	bf00      	nop
- 8000862:	bd80      	pop	{r7, pc}
- 8000864:	48000400 	.word	0x48000400
+ 8000868:	bf00      	nop
+ 800086a:	bd80      	pop	{r7, pc}
+ 800086c:	48000400 	.word	0x48000400
 
-08000868 <main>:
+08000870 <main>:
 /**
   * @brief  The application entry point.
   * @retval int
   */
 int main(void)
 {
- 8000868:	b580      	push	{r7, lr}
- 800086a:	b086      	sub	sp, #24
- 800086c:	af00      	add	r7, sp, #0
+ 8000870:	b580      	push	{r7, lr}
+ 8000872:	b084      	sub	sp, #16
+ 8000874:	af00      	add	r7, sp, #0
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
- 800086e:	f000 fa4c 	bl	8000d0a <HAL_Init>
+ 8000876:	f000 fa48 	bl	8000d0a <HAL_Init>
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
- 8000872:	f000 f831 	bl	80008d8 <SystemClock_Config>
+ 800087a:	f000 f82d 	bl	80008d8 <SystemClock_Config>
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
- 8000876:	f000 f8b3 	bl	80009e0 <MX_GPIO_Init>
+ 800087e:	f000 f8af 	bl	80009e0 <MX_GPIO_Init>
   MX_SPI3_Init();
- 800087a:	f000 f873 	bl	8000964 <MX_SPI3_Init>
+ 8000882:	f000 f86f 	bl	8000964 <MX_SPI3_Init>
   /* USER CODE BEGIN 2 */
   at86rf233_init();
- 800087e:	f7ff ff3b 	bl	80006f8 <at86rf233_init>
+ 8000886:	f7ff ff37 	bl	80006f8 <at86rf233_init>
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	  //writeRegister(0x02,0x02);
 	  //send("bla", sizeof("bla"));
 	  uint8_t CurrentState = get_status(); //Page 37 of datasheet
- 8000882:	f7ff fd03 	bl	800028c <get_status>
- 8000886:	4603      	mov	r3, r0
- 8000888:	75fb      	strb	r3, [r7, #23]
-	  uint8_t Interrupt = readRegister(0x0F);
- 800088a:	200f      	movs	r0, #15
- 800088c:	f7ff fc9c 	bl	80001c8 <readRegister>
- 8000890:	4603      	mov	r3, r0
- 8000892:	75bb      	strb	r3, [r7, #22]
+ 800088a:	f7ff fcff 	bl	800028c <get_status>
+ 800088e:	4603      	mov	r3, r0
+ 8000890:	73fb      	strb	r3, [r7, #15]
+	  //uint8_t Interrupt = readRegister(0x0F);
 	  uint8_t PHY_RSSI = readRegister(0x06); //if bit[7] = 1 (RX_CRC_VALID), FCS is valid
- 8000894:	2006      	movs	r0, #6
- 8000896:	f7ff fc97 	bl	80001c8 <readRegister>
- 800089a:	4603      	mov	r3, r0
- 800089c:	757b      	strb	r3, [r7, #21]
+ 8000892:	2006      	movs	r0, #6
+ 8000894:	f7ff fc98 	bl	80001c8 <readRegister>
+ 8000898:	4603      	mov	r3, r0
+ 800089a:	73bb      	strb	r3, [r7, #14]
 
 	  uint8_t irq_mask = readRegister(AT86RF2XX_REG__IRQ_STATUS);
- 800089e:	200f      	movs	r0, #15
- 80008a0:	f7ff fc92 	bl	80001c8 <readRegister>
- 80008a4:	4603      	mov	r3, r0
- 80008a6:	753b      	strb	r3, [r7, #20]
+ 800089c:	200f      	movs	r0, #15
+ 800089e:	f7ff fc93 	bl	80001c8 <readRegister>
+ 80008a2:	4603      	mov	r3, r0
+ 80008a4:	737b      	strb	r3, [r7, #13]
 
 	  if (irq_mask & AT86RF2XX_IRQ_STATUS_MASK__RX_START){
- 80008a8:	7d3b      	ldrb	r3, [r7, #20]
- 80008aa:	f003 0304 	and.w	r3, r3, #4
- 80008ae:	2b00      	cmp	r3, #0
- 80008b0:	d007      	beq.n	80008c2 <main+0x5a>
+ 80008a6:	7b7b      	ldrb	r3, [r7, #13]
+ 80008a8:	f003 0304 	and.w	r3, r3, #4
+ 80008ac:	2b00      	cmp	r3, #0
+ 80008ae:	d007      	beq.n	80008c0 <main+0x50>
 		  	uint8_t test = 0;
- 80008b2:	2300      	movs	r3, #0
- 80008b4:	74fb      	strb	r3, [r7, #19]
+ 80008b0:	2300      	movs	r3, #0
+ 80008b2:	733b      	strb	r3, [r7, #12]
 		  	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
- 80008b6:	2201      	movs	r2, #1
- 80008b8:	2180      	movs	r1, #128	; 0x80
- 80008ba:	f04f 4090 	mov.w	r0, #1207959552	; 0x48000000
- 80008be:	f000 fd4d 	bl	800135c <HAL_GPIO_WritePin>
+ 80008b4:	2201      	movs	r2, #1
+ 80008b6:	2180      	movs	r1, #128	; 0x80
+ 80008b8:	f04f 4090 	mov.w	r0, #1207959552	; 0x48000000
+ 80008bc:	f000 fd4e 	bl	800135c <HAL_GPIO_WritePin>
 	  }
 	  uint8_t data[] = {0xa7,0x1, 0x431, 'h', 'e', 'l', 'l', 'o'};
- 80008c2:	4a04      	ldr	r2, [pc, #16]	; (80008d4 <main+0x6c>)
- 80008c4:	1d3b      	adds	r3, r7, #4
- 80008c6:	e892 0003 	ldmia.w	r2, {r0, r1}
- 80008ca:	e883 0003 	stmia.w	r3, {r0, r1}
+ 80008c0:	4a04      	ldr	r2, [pc, #16]	; (80008d4 <main+0x64>)
+ 80008c2:	463b      	mov	r3, r7
+ 80008c4:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 80008c8:	e883 0003 	stmia.w	r3, {r0, r1}
 	  size_t len = 7; // Length of the data in bytes
- 80008ce:	2307      	movs	r3, #7
- 80008d0:	60fb      	str	r3, [r7, #12]
+ 80008cc:	2307      	movs	r3, #7
+ 80008ce:	60bb      	str	r3, [r7, #8]
   {
- 80008d2:	e7d6      	b.n	8000882 <main+0x1a>
+ 80008d0:	e7db      	b.n	800088a <main+0x1a>
+ 80008d2:	bf00      	nop
  80008d4:	08002e70 	.word	0x08002e70
 
 080008d8 <SystemClock_Config>:
@@ -2080,7 +2081,7 @@ LoopFillZerobss:
  8000ce6:	f002 f88b 	bl	8002e00 <__libc_init_array>
 /* Call the application's entry point.*/
 	bl	main
- 8000cea:	f7ff fdbd 	bl	8000868 <main>
+ 8000cea:	f7ff fdc1 	bl	8000870 <main>
 
 08000cee <LoopForever>:
 
@@ -7979,11 +7980,3 @@ static HAL_StatusTypeDef SPI_EndRxTxTransaction(SPI_HandleTypeDef *hspi, uint32_
  8002e6a:	bc08      	pop	{r3}
  8002e6c:	469e      	mov	lr, r3
  8002e6e:	4770      	bx	lr
-
-080029f0 <_fini>:
- 80029f0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80029f2:	bf00      	nop
- 80029f4:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80029f6:	bc08      	pop	{r3}
- 80029f8:	469e      	mov	lr, r3
- 80029fa:	4770      	bx	lr

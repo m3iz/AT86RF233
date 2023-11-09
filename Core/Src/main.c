@@ -532,7 +532,7 @@ int main(void)
 	  //writeRegister(0x02,0x02);
 	  //send("bla", sizeof("bla"));
 	  uint8_t CurrentState = get_status(); //Page 37 of datasheet
-	  uint8_t Interrupt = readRegister(0x0F);
+	  //uint8_t Interrupt = readRegister(0x0F);
 	  uint8_t PHY_RSSI = readRegister(0x06); //if bit[7] = 1 (RX_CRC_VALID), FCS is valid
 
 	  uint8_t irq_mask = readRegister(AT86RF2XX_REG__IRQ_STATUS);
@@ -568,34 +568,6 @@ int main(void)
 	  //
 	  //  }
 
-	  if (CurrentState == STATE_P_ON) { //P_ON
-	    writeRegister(0x0E, IRQ_CCA_ED); // Interrupt AWAKE_END (IRQ_4) enabled
-	    writeRegister(0x02, STATE_TRX_OFF); //Go from P_ON to TRX_OFF state
-	    HAL_Delay(1);
-	  }
-	  if (CurrentState == STATE_TRX_OFF) { //TRX_OFF = 0x00
-	    writeRegister(0x0E, IRQ_PLL_LOCK); // Interrupt PLL_LOCK (IRQ_0) enabled
-	    writeRegister(0x02, STATE_TX_ON); //Go from TRX_OFF to PLL_ON state
-	    HAL_Delay(0.016);
-	  }
-
-	  if (Interrupt & IRQ_PLL_LOCK) { //if PLL is locked
-	    writeRegister(0x0E, IRQ_RX_START & IRQ_TRX_END & IRQ_AMI); // Interrupts RX_START (IRQ_2), TRX_END (IRQ_3) and AMI (IRQ_5) enabled
-	    writeRegister(0x02, STATE_RX_AACK_ON); //Go from PLL_ON to RX_AACK_ON state
-	    // during RX_ON state, listen for incoming frame, BUSY_RX -> receiving frame, interrupt IRQ_TRX_END -> done
-	    HAL_Delay(1);
-	  }
-	  if (Interrupt & AT86RF2XX_IRQ_STATUS_MASK__RX_START){
-		  int abba = 12;
-
-	  }
-	  if (Interrupt & IRQ_TRX_END) {
-	    // If we receive something, state will be BUSY_RX, interrupt IRQ_TRX_END when receive done
-	   // readFrame();
-	    received++;
-	    //Serial.print("Total frames received: ");
-	    //Serial.println(received);
-	  }
   }
   /* USER CODE END 3 */
 }
