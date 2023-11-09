@@ -37,242 +37,14 @@
 /* USER CODE BEGIN PM */
 /* Constants */
 
-#define AT86RF2XX_REG__TRX_STATUS                               (0x01)
-#define AT86RF2XX_REG__TRX_STATE                                (0x02)
-#define AT86RF2XX_REG__TRX_CTRL_0                               (0x03)
-#define AT86RF2XX_REG__TRX_CTRL_1                               (0x04)
-#define AT86RF2XX_REG__PHY_TX_PWR                               (0x05)
-#define AT86RF2XX_REG__PHY_RSSI                                 (0x06)
-#define AT86RF2XX_REG__PHY_ED_LEVEL                             (0x07)
-#define AT86RF2XX_REG__PHY_CC_CCA                               (0x08)
-#define AT86RF2XX_REG__CCA_THRES                                (0x09)
-#define AT86RF2XX_REG__RX_CTRL                                  (0x0A)
-#define AT86RF2XX_REG__SFD_VALUE                                (0x0B)
-#define AT86RF2XX_REG__TRX_CTRL_2                               (0x0C)
-#define AT86RF2XX_REG__ANT_DIV                                  (0x0D)
-#define AT86RF2XX_REG__IRQ_MASK                                 (0x0E)
-#define AT86RF2XX_REG__IRQ_STATUS                               (0x0F)
-#define AT86RF2XX_REG__VREG_CTRL                                (0x10)
-#define AT86RF2XX_REG__BATMON                                   (0x11)
-#define AT86RF2XX_REG__XOSC_CTRL                                (0x12)
-#define AT86RF2XX_REG__CC_CTRL_1                                (0x14)
-#define AT86RF2XX_REG__RX_SYN                                   (0x15)
-#ifdef MODULE_AT86RF212B
-#define AT86RF2XX_REG__RF_CTRL_0                                (0x16)
-#endif
-#define AT86RF2XX_REG__XAH_CTRL_1                               (0x17)
-#define AT86RF2XX_REG__FTN_CTRL                                 (0x18)
-#define AT86RF2XX_REG__PLL_CF                                   (0x1A)
-#define AT86RF2XX_REG__PLL_DCU                                  (0x1B)
-#define AT86RF2XX_REG__PART_NUM                                 (0x1C)
-#define AT86RF2XX_REG__VERSION_NUM                              (0x1D)
-#define AT86RF2XX_REG__MAN_ID_0                                 (0x1E)
-#define AT86RF2XX_REG__MAN_ID_1                                 (0x1F)
-#define AT86RF2XX_REG__SHORT_ADDR_0                             (0x20)
-#define AT86RF2XX_REG__SHORT_ADDR_1                             (0x21)
-#define AT86RF2XX_REG__PAN_ID_0                                 (0x22)
-#define AT86RF2XX_REG__PAN_ID_1                                 (0x23)
-#define AT86RF2XX_REG__IEEE_ADDR_0                              (0x24)
-#define AT86RF2XX_REG__IEEE_ADDR_1                              (0x25)
-#define AT86RF2XX_REG__IEEE_ADDR_2                              (0x26)
-#define AT86RF2XX_REG__IEEE_ADDR_3                              (0x27)
-#define AT86RF2XX_REG__IEEE_ADDR_4                              (0x28)
-#define AT86RF2XX_REG__IEEE_ADDR_5                              (0x29)
-#define AT86RF2XX_REG__IEEE_ADDR_6                              (0x2A)
-#define AT86RF2XX_REG__IEEE_ADDR_7                              (0x2B)
-#define AT86RF2XX_REG__XAH_CTRL_0                               (0x2C)
-#define AT86RF2XX_REG__CSMA_SEED_0                              (0x2D)
-#define AT86RF2XX_REG__CSMA_SEED_1                              (0x2E)
-#define AT86RF2XX_REG__CSMA_BE                                  (0x2F)
-#define AT86RF2XX_REG__TST_CTRL_DIGI                            (0x36)
-/** @} */
-
-/**
- * @brief   Bitfield definitions for the TRX_CTRL_0 register
- * @{
- */
-#define AT86RF2XX_TRX_CTRL_0_MASK__PAD_IO                       (0xC0)
-#define AT86RF2XX_TRX_CTRL_0_MASK__PAD_IO_CLKM                  (0x30)
-#define AT86RF2XX_TRX_CTRL_0_MASK__CLKM_SHA_SEL                 (0x08)
-#define AT86RF2XX_TRX_CTRL_0_MASK__CLKM_CTRL                    (0x07)
-
-#define AT86RF2XX_TRX_CTRL_0_DEFAULT__PAD_IO                    (0x00)
-#define AT86RF2XX_TRX_CTRL_0_DEFAULT__PAD_IO_CLKM               (0x10)
-#define AT86RF2XX_TRX_CTRL_0_DEFAULT__CLKM_SHA_SEL              (0x08)
-#define AT86RF2XX_TRX_CTRL_0_DEFAULT__CLKM_CTRL                 (0x01)
-
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__OFF                     (0x00)
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__1MHz                    (0x01)
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__2MHz                    (0x02)
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__4MHz                    (0x03)
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__8MHz                    (0x04)
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__16MHz                   (0x05)
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__250kHz                  (0x06)
-#define AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__62_5kHz                 (0x07)
-
-#define AT86RF2XX_IRQ_STATUS_MASK__BAT_LOW                      (0x80)
-#define AT86RF2XX_IRQ_STATUS_MASK__TRX_UR                       (0x40)
-#define AT86RF2XX_IRQ_STATUS_MASK__AMI                          (0x20)
-#define AT86RF2XX_IRQ_STATUS_MASK__CCA_ED_DONE                  (0x10)
-#define AT86RF2XX_IRQ_STATUS_MASK__TRX_END                      (0x08)
-#define AT86RF2XX_IRQ_STATUS_MASK__RX_START                     (0x04)
-#define AT86RF2XX_IRQ_STATUS_MASK__PLL_UNLOCK                   (0x02)
-#define AT86RF2XX_IRQ_STATUS_MASK__PLL_LOCK                     (0x01)
-/** @} */
-
-/**
- * @brief   Bitfield definitions for the TRX_CTRL_1 register
- * @{
- */
-#define AT86RF2XX_TRX_STATE_MASK__TRAC                          (0xe0)
-
-#define AT86RF2XX_TRX_STATE__NOP                                (0x00)
-#define AT86RF2XX_TRX_STATE__TX_START                           (0x02)
-#define AT86RF2XX_TRX_STATE__FORCE_TRX_OFF                      (0x03)
-#define AT86RF2XX_TRX_STATE__FORCE_PLL_ON                       (0x04)
-#define AT86RF2XX_TRX_STATE__RX_ON                              (0x06)
-#define AT86RF2XX_TRX_STATE__TRX_OFF                            (0x08)
-#define AT86RF2XX_TRX_STATE__PLL_ON                             (0x09)
-#define AT86RF2XX_TRX_STATE__RX_AACK_ON                         (0x16)
-#define AT86RF2XX_TRX_STATE__TX_ARET_ON                         (0x19)
-#define AT86RF2XX_TRX_STATE__TRAC_SUCCESS                       (0x00)
-#define AT86RF2XX_TRX_STATE__TRAC_SUCCESS_DATA_PENDING          (0x20)
-#define AT86RF2XX_TRX_STATE__TRAC_SUCCESS_WAIT_FOR_ACK          (0x40)
-#define AT86RF2XX_TRX_STATE__TRAC_CHANNEL_ACCESS_FAILURE        (0x60)
-#define AT86RF2XX_TRX_STATE__TRAC_NO_ACK                        (0xa0)
-#define AT86RF2XX_TRX_STATE__TRAC_INVALID                       (0xe0)
-
-#define AT86RF2XX_TRX_CTRL_1_MASK__PA_EXT_EN                    (0x80)
-#define AT86RF2XX_TRX_CTRL_1_MASK__IRQ_2_EXT_EN                 (0x40)
-#define AT86RF2XX_TRX_CTRL_1_MASK__TX_AUTO_CRC_ON               (0x20)
-#define AT86RF2XX_TRX_CTRL_1_MASK__RX_BL_CTRL                   (0x10)
-#define AT86RF2XX_TRX_CTRL_1_MASK__SPI_CMD_MODE                 (0x0C)
-#define AT86RF2XX_TRX_CTRL_1_MASK__IRQ_MASK_MODE                (0x02)
-#define AT86RF2XX_TRX_CTRL_1_MASK__IRQ_POLARITY                 (0x01)
-
-#define CSRESET HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
-#define CSSET HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
-
-#define AT86RF2XX_ACCESS_REG                                    (0x80)
-#define AT86RF2XX_ACCESS_FB                                     (0x20)
-#define AT86RF2XX_ACCESS_SRAM                                   (0x00)
-#define AT86RF2XX_ACCESS_READ                                   (0x00)
-#define AT86RF2XX_ACCESS_WRITE                                  (0x40)
-
-#define REG_READ     0B10000000 //Read command register access
-#define REG_WRITE    0B11000000 //Write command register access
-#define FRAME_WRITE  0b01100000
-
-/* SPI Commands */
-#define CMD_FB_READ 0B00100000 //Frame Buffer read
-#define CMD_SRAM_READ 0B00000000 //SRAM Read command
-
-/* Interrupt codes */
-#define IRQ_BAT_LOW	(1 << 7)
-#define IRQ_TRX_UR	(1 << 6)
-#define IRQ_AMI		(1 << 5)
-#define IRQ_CCA_ED	(1 << 4)
-#define IRQ_TRX_END	(1 << 3)
-#define IRQ_RX_START	(1 << 2)
-#define IRQ_PLL_UNL	(1 << 1)
-#define IRQ_PLL_LOCK	(1 << 0)
-
-/* Possible states (register: xxx) */
-#define STATE_P_ON		0x00	/* BUSY */
-#define STATE_BUSY_RX		0x01
-#define STATE_BUSY_TX		0x02
-#define STATE_FORCE_TRX_OFF	0x03
-#define STATE_FORCE_TX_ON	0x04	/* IDLE */
-/* 0x05 */				/* INVALID_PARAMETER */
-#define STATE_RX_ON		0x06
-/* 0x07 */				/* SUCCESS */
-#define STATE_TRX_OFF		0x08
-#define STATE_TX_ON		0x09
-/* 0x0a - 0x0e */			/* 0x0a - UNSUPPORTED_ATTRIBUTE */
-#define STATE_SLEEP		0x0F
-#define STATE_PREP_DEEP_SLEEP	0x10
-#define STATE_BUSY_RX_AACK	0x11
-#define STATE_BUSY_TX_ARET	0x12
-#define STATE_RX_AACK_ON	0x16
-#define STATE_TX_ARET_ON	0x19
-#define STATE_RX_ON_NOCLK	0x1C
-#define STATE_RX_AACK_ON_NOCLK	0x1D
-#define STATE_BUSY_RX_AACK_NOCLK 0x1E
-#define STATE_TRANSITION_IN_PROGRESS 0x1F
-
-#define AT86RF2XX_STATE_TRX_OFF      (0x08)     /**< idle */
-#define AT86RF2XX_STATE_PLL_ON       (0x09)     /**< ready to transmit */
-#define AT86RF2XX_STATE_SLEEP        (0x0f)     /**< sleep mode */
-#define AT86RF2XX_STATE_BUSY_RX_AACK (0x11)     /**< busy receiving data */
-#define AT86RF2XX_STATE_BUSY_TX_ARET (0x12)     /**< busy transmitting data */
-#define AT86RF2XX_STATE_RX_AACK_ON   (0x16)     /**< wait for incoming data */
-#define AT86RF2XX_STATE_TX_ARET_ON   (0x19)     /**< ready for sending data */
-#define AT86RF2XX_STATE_IN_PROGRESS  (0x1f)     /**< ongoing state conversion */
-
-#define AT86RF2XX_STATE_TRX_OFF      (0x08)     /**< idle */
-#define AT86RF2XX_STATE_PLL_ON       (0x09)     /**< ready to transmit */
-#define AT86RF2XX_STATE_SLEEP        (0x0f)     /**< sleep mode */
-#define AT86RF2XX_STATE_BUSY_RX_AACK (0x11)     /**< busy receiving data */
-#define AT86RF2XX_STATE_BUSY_TX_ARET (0x12)     /**< busy transmitting data */
-#define AT86RF2XX_STATE_RX_AACK_ON   (0x16)     /**< wait for incoming data */
-#define AT86RF2XX_STATE_TX_ARET_ON   (0x19)     /**< ready for sending data */
-#define AT86RF2XX_STATE_IN_PROGRESS  (0x1f)     /**< ongoing state conversion */
-/** @} */
-
-/**
- * @brief   Internal device option flags
- * @{
- */
-#define AT86RF2XX_OPT_AUTOACK        (0x0001)       /**< auto ACKs active */
-#define AT86RF2XX_OPT_CSMA           (0x0002)       /**< CSMA active */
-#define AT86RF2XX_OPT_PROMISCUOUS    (0x0004)       /**< promiscuous mode
-                                                     *   active */
-#define AT86RF2XX_OPT_PRELOADING     (0x0008)       /**< preloading enabled */
-#define AT86RF2XX_OPT_TELL_TX_START  (0x0010)       /**< notify MAC layer on TX
-                                                     *   start */
-#define AT86RF2XX_OPT_TELL_TX_END    (0x0020)       /**< notify MAC layer on TX
-                                                     *   finished */
-#define AT86RF2XX_OPT_TELL_RX_START  (0x0040)       /**< notify MAC layer on RX
-                                                     *   start */
-#define AT86RF2XX_OPT_TELL_RX_END    (0x0080)       /**< notify MAC layer on RX
-                                                     *   finished */
-#define AT86RF2XX_OPT_RAWDUMP        (0x0100)       /**< pass RAW frame data to
-                                                     *   upper layer */
-#define AT86RF2XX_OPT_SRC_ADDR_LONG  (0x0200)       /**< send data using long
-                                                     *   source address */
-#define AT86RF2XX_OPT_USE_SRC_PAN    (0x0400)       /**< do not compress source
-                                                     *   PAN ID */
-#define IEEE802154_MAX_HDR_LEN              (23U)
-#define IEEE802154_FCF_LEN                  (2U)
-#define IEEE802154_FCS_LEN                  (2U)
-
-#define IEEE802154_FCF_TYPE_MASK            (0x07)
-#define IEEE802154_FCF_TYPE_BEACON          (0x00)
-#define IEEE802154_FCF_TYPE_DATA            (0x01)
-#define IEEE802154_FCF_TYPE_ACK             (0x02)
-#define IEEE802154_FCF_TYPE_MACCMD          (0x03)
-
-#define IEEE802154_FCF_SECURITY_EN          (0x08)
-#define IEEE802154_FCF_FRAME_PEND           (0x10)
-#define IEEE802154_FCF_ACK_REQ              (0x20)
-#define IEEE802154_FCF_PAN_COMP             (0x40)
-
-#define IEEE802154_FCF_DST_ADDR_MASK        (0x0c)
-#define IEEE802154_FCF_DST_ADDR_VOID        (0x00)
-#define IEEE802154_FCF_DST_ADDR_SHORT       (0x08)
-#define IEEE802154_FCF_DST_ADDR_LONG        (0x0c)
-
-#define IEEE802154_FCF_VERS_V0              (0x00)
-#define IEEE802154_FCF_VERS_V1              (0x10)
-
-#define IEEE802154_FCF_SRC_ADDR_MASK        (0xc0)
-#define IEEE802154_FCF_SRC_ADDR_VOID        (0x00)
-#define IEEE802154_FCF_SRC_ADDR_SHORT       (0x80)
-#define IEEE802154_FCF_SRC_ADDR_LONG        (0xc0)
 
 int received = 0;
 int frame_len = 0;
 int idle_state = 0;
+uint16_t options;
+uint8_t state;                      /**< current state of the radio */
+uint8_t seq_nr;
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -318,10 +90,218 @@ void writeRegister(const uint8_t addr,
 
 }
 
+uint8_t get_status(void){
+	return readRegister(0x01);
+}
+
+void set_csma_max_retries(int8_t retries)
+{
+    retries = (retries > 5) ? 5 : retries; /* valid values: 0-5 */
+    retries = (retries < 0) ? 7 : retries; /* max < 0 => disable CSMA (set to 7) */
+    //DEBUG("[at86rf2xx] opt: Set CSMA retries to %u\n", retries);
+
+    uint8_t tmp = readRegister(AT86RF2XX_REG__XAH_CTRL_0);
+    tmp &= ~(AT86RF2XX_XAH_CTRL_0__MAX_CSMA_RETRIES);
+    tmp |= (retries << 1);
+    writeRegister(AT86RF2XX_REG__XAH_CTRL_0, tmp);
+}
+
+void set_csma_backoff_exp(uint8_t min, uint8_t max)
+{
+    max = (max > 8) ? 8 : max;
+    min = (min > max) ? max : min;
+    //DEBUG("[at86rf2xx] opt: Set min BE=%u, max BE=%u\n", min, max);
+
+    writeRegister(AT86RF2XX_REG__CSMA_BE, (max << 4) | (min));
+}
+
+void set_csma_seed(uint8_t entropy[2])
+{
+    if(entropy == NULL) {
+        //DEBUG("[at86rf2xx] opt: CSMA seed entropy is nullpointer\n");
+        return;
+    }
+    //DEBUG("[at86rf2xx] opt: Set CSMA seed to 0x%x 0x%x\n", entropy[0], entropy[1]);
+
+    writeRegister(AT86RF2XX_REG__CSMA_SEED_0, entropy[0]);
+
+    uint8_t tmp = readRegister(AT86RF2XX_REG__CSMA_SEED_1);
+    tmp &= ~(AT86RF2XX_CSMA_SEED_1__CSMA_SEED_1);
+    tmp |= entropy[1] & AT86RF2XX_CSMA_SEED_1__CSMA_SEED_1;
+    writeRegister(AT86RF2XX_REG__CSMA_SEED_1, tmp);
+}
+
+void set_option(uint16_t option, int state)
+{
+    uint8_t tmp;
+
+    //DEBUG("set option %i to %i\n", option, state);
+
+    /* set option field */
+    if (state) {
+        options |= option;
+        /* trigger option specific actions */
+        switch (option) {
+            case AT86RF2XX_OPT_CSMA:
+                //DEBUG("[at86rf2xx] opt: enabling CSMA mode" \
+                      "(4 retries, min BE: 3 max BE: 5)\n");
+                /* Initialize CSMA seed with hardware address */
+                set_csma_seed(0b101011);
+                set_csma_max_retries(4);
+                set_csma_backoff_exp(3, 5);
+                break;
+            case AT86RF2XX_OPT_PROMISCUOUS:
+                //DEBUG("[at86rf2xx] opt: enabling PROMISCUOUS mode\n");
+                /* disable auto ACKs in promiscuous mode */
+                tmp = readRegister(AT86RF2XX_REG__CSMA_SEED_1);
+                tmp |= AT86RF2XX_CSMA_SEED_1__AACK_DIS_ACK;
+                writeRegister(AT86RF2XX_REG__CSMA_SEED_1, tmp);
+                /* enable promiscuous mode */
+                tmp = readRegister(AT86RF2XX_REG__XAH_CTRL_1);
+                tmp |= AT86RF2XX_XAH_CTRL_1__AACK_PROM_MODE;
+                writeRegister(AT86RF2XX_REG__XAH_CTRL_1, tmp);
+                break;
+            case AT86RF2XX_OPT_AUTOACK:
+                //DEBUG("[at86rf2xx] opt: enabling auto ACKs\n");
+                tmp = readRegister(AT86RF2XX_REG__CSMA_SEED_1);
+                tmp &= ~(AT86RF2XX_CSMA_SEED_1__AACK_DIS_ACK);
+                writeRegister(AT86RF2XX_REG__CSMA_SEED_1, tmp);
+                break;
+            case AT86RF2XX_OPT_TELL_RX_START:
+                //DEBUG("[at86rf2xx] opt: enabling SFD IRQ\n");
+                tmp = readRegister(AT86RF2XX_REG__IRQ_MASK);
+                tmp |= AT86RF2XX_IRQ_STATUS_MASK__RX_START;
+                writeRegister(AT86RF2XX_REG__IRQ_MASK, tmp);
+                break;
+            default:
+                /* do nothing */
+                break;
+        }
+    }
+    else {
+        options &= ~(option);
+        /* trigger option specific actions */
+        switch (option) {
+            case AT86RF2XX_OPT_CSMA:
+                //DEBUG("[at86rf2xx] opt: disabling CSMA mode\n");
+                /* setting retries to -1 means CSMA disabled */
+                set_csma_max_retries(-1);
+                break;
+            case AT86RF2XX_OPT_PROMISCUOUS:
+                //DEBUG("[at86rf2xx] opt: disabling PROMISCUOUS mode\n");
+                /* disable promiscuous mode */
+                tmp = readRegister(AT86RF2XX_REG__XAH_CTRL_1);
+                tmp &= ~(AT86RF2XX_XAH_CTRL_1__AACK_PROM_MODE);
+                writeRegister(AT86RF2XX_REG__XAH_CTRL_1, tmp);
+                /* re-enable AUTOACK only if the option is set */
+                if (options & AT86RF2XX_OPT_AUTOACK) {
+                    tmp = readRegister(AT86RF2XX_REG__CSMA_SEED_1);
+                    tmp &= ~(AT86RF2XX_CSMA_SEED_1__AACK_DIS_ACK);
+                    writeRegister(AT86RF2XX_REG__CSMA_SEED_1,
+                                        tmp);
+                }
+                break;
+            case AT86RF2XX_OPT_AUTOACK:
+                //DEBUG("[at86rf2xx] opt: disabling auto ACKs\n");
+                tmp = readRegister(AT86RF2XX_REG__CSMA_SEED_1);
+                tmp |= AT86RF2XX_CSMA_SEED_1__AACK_DIS_ACK;
+                writeRegister(AT86RF2XX_REG__CSMA_SEED_1, tmp);
+                break;
+            case AT86RF2XX_OPT_TELL_RX_START:
+                //DEBUG("[at86rf2xx] opt: disabling SFD IRQ\n");
+                tmp = readRegister(AT86RF2XX_REG__IRQ_MASK);
+                tmp &= ~AT86RF2XX_IRQ_STATUS_MASK__RX_START;
+                writeRegister(AT86RF2XX_REG__IRQ_MASK, tmp);
+                break;
+            default:
+                /* do nothing */
+                break;
+        }
+    }
+}
+
+void _set_state(uint8_t state_)
+{
+	writeRegister(AT86RF2XX_REG__TRX_STATE, state_);
+    while (get_status() != state_);
+}
+
+void set_state(uint8_t state_)
+{
+	_set_state(state_);
+    uint8_t old_state = get_status();
+
+    if (state_ == old_state) {
+        return;
+    }
+    /* make sure there is no ongoing transmission, or state transition already
+     * in progress */
+    while (old_state == AT86RF2XX_STATE_BUSY_RX_AACK ||
+           old_state == AT86RF2XX_STATE_BUSY_TX_ARET ||
+           old_state == AT86RF2XX_STATE_IN_PROGRESS) {
+        old_state = get_status();
+    }
+
+    /* we need to go via PLL_ON if we are moving between RX_AACK_ON <-> TX_ARET_ON */
+    if ((old_state == AT86RF2XX_STATE_RX_AACK_ON &&
+             state_ == AT86RF2XX_STATE_TX_ARET_ON) ||
+        (old_state == AT86RF2XX_STATE_TX_ARET_ON &&
+             state_ == AT86RF2XX_STATE_RX_AACK_ON)) {
+        _set_state(AT86RF2XX_STATE_PLL_ON);
+    }
+    /* check if we need to wake up from sleep mode */
+    else if (old_state == AT86RF2XX_STATE_SLEEP) {
+        //DEBUG("at86rf2xx: waking up from sleep mode\n");
+        //assert_awake();
+    }
+}
+
+void set_addr_short(uint16_t addr)
+{
+	uint8_t addr_short[2];
+    addr_short[0] = addr >> 8;
+    addr_short[1] = addr & 0xff;
+    writeRegister(AT86RF2XX_REG__SHORT_ADDR_0,
+                        addr_short[0]);
+    writeRegister(AT86RF2XX_REG__SHORT_ADDR_1,
+                        addr_short[1]);
+}
+
+void set_addr_long(uint64_t addr)
+{
+	uint8_t addr_long[8];
+    for (int i = 0; i < 8; i++) {
+        addr_long[i] = (addr >> ((7 - i) * 8));
+        writeRegister((AT86RF2XX_REG__IEEE_ADDR_0 + i), addr_long[i]);
+    }
+}
+
+void set_pan(uint16_t pan)
+{
+    //pan = pan_;
+    //DEBUG("pan0: %u, pan1: %u\n", (uint8_t)pan, pan >> 8);
+    writeRegister(AT86RF2XX_REG__PAN_ID_0, (uint8_t)pan);
+    writeRegister(AT86RF2XX_REG__PAN_ID_1, (pan >> 8));
+}
+
+void set_chan(uint8_t channel)
+{
+    uint8_t tmp;
+
+    if (channel < AT86RF2XX_MIN_CHANNEL
+        || channel > AT86RF2XX_MAX_CHANNEL) {
+        return;
+    }
+    //chan = channel;
+    tmp = readRegister(AT86RF2XX_REG__PHY_CC_CCA);
+    tmp &= ~(AT86RF2XX_PHY_CC_CCA_MASK__CHANNEL);
+    tmp |= (channel & AT86RF2XX_PHY_CC_CCA_MASK__CHANNEL);
+    writeRegister(AT86RF2XX_REG__PHY_CC_CCA, tmp);
+}
+
 void at86rf233_init(){
 
 
-	//hardware_reset();
 	HAL_GPIO_WritePin(SLP_GPIO_Port, SLP_Pin, GPIO_PIN_RESET);
 	//digitalWrite(SLP_TR, LOW);
 	HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
@@ -329,51 +309,82 @@ void at86rf233_init(){
 	HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
 	//digitalWrite(SEL, HIGH);
 
+	uint8_t part_num = readRegister(AT86RF2XX_REG__PART_NUM);
+	    if (part_num != 0xb) {
 
+	        return -1;
+	    }
+	//
+	hardware_reset();
+	reset_state_machine();
 	//
 
-	//
+	 seq_nr = 0;
+	 options = 0;
 
-	writeRegister(0x08, 0x0B); //Channel: 2405 MHz
 
 	  // Enable promiscuous mode:
-	writeRegister(0x20, 0x12); //Short address bit[7:0]
-	writeRegister(0x21, 0x34); //Short address bit[15:8]
-	writeRegister(0x22, 0x10); //PAN ID bit[7:0]
-	writeRegister(0x23, 0x20); //PAN ID bit[15:8]
-	writeRegister(0x24, 0x30); //IEEE_ADDR_0
-	writeRegister(0x25, 0x40); //IEEE_ADDR_1
-	writeRegister(0x26, 0x50); //IEEE_ADDR_2
-	writeRegister(0x27, 0x60); //IEEE_ADDR_3
-	writeRegister(0x28, 0x70); //IEEE_ADDR_4
-	writeRegister(0x29, 0x80); //IEEE_ADDR_5
-	writeRegister(0x2A, 0x90); //IEEE_ADDR_6
-	writeRegister(0x2B, 0x22); //IEEE_ADDR_7
+	set_addr_short(0x1);
+	set_pan(0x0023);
+	set_addr_long(0x1222334455667768);
+
+
+	set_chan(AT86RF2XX_DEFAULT_CHANNEL);
+
+
 	writeRegister(0x05, 0x0); // tx power
 
-	uint8_t val = readRegister(0x04); //TX_AUTO_CRC_ON_1
-		val = val | 0b10000;
-		writeRegister(0x04, val);
+	/* set default options */
+	 set_option(AT86RF2XX_OPT_PROMISCUOUS, 1);
+	 set_option(AT86RF2XX_OPT_AUTOACK, 1);
+	 set_option(AT86RF2XX_OPT_CSMA, 1);
+	 set_option(AT86RF2XX_OPT_TELL_RX_START, 1);
+	 set_option(AT86RF2XX_OPT_TELL_RX_END, 1);
 
-		val = readRegister(0x2C); //MAX_FRAME_RETRIES, MAX_CSMA_RETRIES
-		val = val | 0b110110;
-		writeRegister(0x2C, val);
+	writeRegister(AT86RF2XX_REG__TRX_CTRL_2, AT86RF2XX_TRX_CTRL_2_MASK__RX_SAFE_MODE);
 
 
-		writeRegister(0x2C, 0xEA);//CSMA_SEED
-		val = readRegister(0x2E);
-		val = val | 0b110;
-		writeRegister(0x2E, val);
+
+	/* disable clock output to save power */
+    uint8_t tmp = readRegister(AT86RF2XX_REG__TRX_CTRL_0);
+    tmp &= ~(AT86RF2XX_TRX_CTRL_0_MASK__CLKM_CTRL);
+    tmp &= ~(AT86RF2XX_TRX_CTRL_0_MASK__CLKM_SHA_SEL);
+    tmp |= (AT86RF2XX_TRX_CTRL_0_CLKM_CTRL__OFF);
+    writeRegister(AT86RF2XX_REG__TRX_CTRL_0, tmp);
+
+	    /* enable interrupts */
+	writeRegister(AT86RF2XX_REG__IRQ_MASK, AT86RF2XX_IRQ_STATUS_MASK__TRX_END);
+
+	    /* clear interrupt flags */
+	readRegister(AT86RF2XX_REG__IRQ_STATUS);
+
+	set_state(25); //16 - RX_ACACK 6 - rx 25 - tx
+	////////////////////////////////////////////////////////////
+
+
+	/*uint8_t val = readRegister(0x04); //TX_AUTO_CRC_ON_1
+	val = val | 0b10000;
+	writeRegister(0x04, val);
+
+	val = readRegister(0x2C); //MAX_FRAME_RETRIES, MAX_CSMA_RETRIES
+	val = val | 0b110110;
+	writeRegister(0x2C, val);
+
+
+	writeRegister(0x2C, 0xEA);//CSMA_SEED
+	val = readRegister(0x2E);
+	val = val | 0b110;
+	writeRegister(0x2E, val);
 
 		//max min be
-		val = readRegister(0x2F);
+	val = readRegister(0x2F);
 		val = val | 0b110001;
 		writeRegister(0x2F, val);
 
 
 		readRegister(0x1C);
 
-
+*/
 	  //Serial.print("Detected part nr: 0x");
 	  //Serial.println(readRegister(0x1C), HEX);
 	  //Serial.print("Version: 0x");
@@ -381,53 +392,36 @@ void at86rf233_init(){
 
 	HAL_Delay(1);
 }
+void force_trx_off()
+{
+    writeRegister(AT86RF2XX_REG__TRX_STATE, AT86RF2XX_TRX_STATE__FORCE_TRX_OFF);
+    while (get_status() != AT86RF2XX_STATE_TRX_OFF);
+}
+void reset_state_machine()
+{
+    uint8_t old_state;
+
+    //assert_awake();
+
+    /* Wait for any state transitions to complete before forcing TRX_OFF */
+    do {
+        old_state = get_status();
+    } while (old_state == AT86RF2XX_STATE_IN_PROGRESS);
+
+    force_trx_off();
+}
 
 void hardware_reset(void){
 
 	    /* trigger hardware reset */
 
 		HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_RESET);
-	    HAL_Delay(HAL_MAX_DELAY);
+	    HAL_Delay(AT86RF2XX_RESET_PULSE_WIDTH);
 	    HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
-	    HAL_Delay(HAL_MAX_DELAY);
+	    HAL_Delay(AT86RF2XX_RESET_PULSE_WIDTH);
 }
-/* USER CODE END 0 */
 
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
-int main(void)
-{
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
-  SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_SPI3_Init();
-  /* USER CODE BEGIN 2 */
-  at86rf233_init();
-  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-
-
- void sram_write(const uint8_t offset,
+void sram_write(const uint8_t offset,
                             const uint8_t *data,
                             const size_t len)
   {
@@ -444,9 +438,7 @@ int main(void)
       CSSET;
   }
 
-uint8_t get_status(void){
-	return readRegister(0x01);
-}
+
 
  void tx_prepare(void){
 	 uint8_t state;
@@ -492,6 +484,41 @@ void tx_exec()
 	tx_exec();
     return len;
   }
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_SPI3_Init();
+  /* USER CODE BEGIN 2 */
+  at86rf233_init();
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -503,7 +530,7 @@ void tx_exec()
     /* USER CODE BEGIN 3 */
 	  //writeRegister(0x02,0x02);
 	  //send("bla", sizeof("bla"));
-	  uint8_t CurrentState = readRegister(0x01); //Page 37 of datasheet
+	  uint8_t CurrentState = get_status(); //Page 37 of datasheet
 	  uint8_t Interrupt = readRegister(0x0F);
 	  uint8_t PHY_RSSI = readRegister(0x06); //if bit[7] = 1 (RX_CRC_VALID), FCS is valid
 
@@ -513,7 +540,9 @@ void tx_exec()
 		  	uint8_t test = 0;
 		  	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 	  }
-
+	  uint8_t data[] = {0xa7,0x1, 0x431, 'h', 'e', 'l', 'l', 'o'};
+	  size_t len = 7; // Length of the data in bytes
+	  send(data, sizeof(data));
 	  //  unsigned long jetzt = millis();
 
 	  // This can be used to write status updates
