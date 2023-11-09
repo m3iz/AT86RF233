@@ -326,7 +326,7 @@ void at86rf233_init(){
 	  // Enable promiscuous mode:
 	set_addr_short(0x1);
 	set_pan(0x0023);
-	set_addr_long(0x1222334455667768);
+	set_addr_long(0x2222334445666768);
 
 
 	set_chan(AT86RF2XX_DEFAULT_CHANNEL);
@@ -358,7 +358,7 @@ void at86rf233_init(){
 	    /* clear interrupt flags */
 	readRegister(AT86RF2XX_REG__IRQ_STATUS);
 
-	set_state(25); //16 - RX_ACACK 6 - rx 25 - tx
+	set_state(6); //16 - RX_ACACK 6 - rx 25 - tx
 	////////////////////////////////////////////////////////////
 
 
@@ -517,7 +517,7 @@ int main(void)
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
   at86rf233_init();
-  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  //HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 
   /* USER CODE END 2 */
 
@@ -538,11 +538,11 @@ int main(void)
 
 	  if (irq_mask & AT86RF2XX_IRQ_STATUS_MASK__RX_START){
 		  	uint8_t test = 0;
-		  	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		  	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 	  }
 	  uint8_t data[] = {0xa7,0x1, 0x431, 'h', 'e', 'l', 'l', 'o'};
 	  size_t len = 7; // Length of the data in bytes
-	  send(data, sizeof(data));
+	 // send(data, sizeof(data));
 	  //  unsigned long jetzt = millis();
 
 	  // This can be used to write status updates
