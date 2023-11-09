@@ -7979,3 +7979,11 @@ static HAL_StatusTypeDef SPI_EndRxTxTransaction(SPI_HandleTypeDef *hspi, uint32_
  8002e6a:	bc08      	pop	{r3}
  8002e6c:	469e      	mov	lr, r3
  8002e6e:	4770      	bx	lr
+
+080029f0 <_fini>:
+ 80029f0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80029f2:	bf00      	nop
+ 80029f4:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80029f6:	bc08      	pop	{r3}
+ 80029f8:	469e      	mov	lr, r3
+ 80029fa:	4770      	bx	lr
