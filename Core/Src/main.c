@@ -44,6 +44,7 @@ int idle_state = 0;
 uint16_t options;
 uint8_t state;                      /**< current state of the radio */
 uint8_t seq_nr;
+int connected = 0;
 
 /* USER CODE END PM */
 
@@ -519,7 +520,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   at86rf233_init();
   //HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-
+  connected = 0;
+  int counter = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -541,6 +543,11 @@ int main(void)
 		  	uint8_t test = 0;
 		  	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 	  }
+	  else counter ++;
+	  if(counter>4){
+		  NVIC_SystemReset();
+	  	  }
+	  HAL_Delay(1000);
 	  uint8_t data[] = {0xa7,0x1, 0x431, 'h', 'e', 'l', 'l', 'o'};
 	  size_t len = 7; // Length of the data in bytes
 	 // send(data, sizeof(data));
