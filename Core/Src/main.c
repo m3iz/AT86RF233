@@ -333,7 +333,8 @@ void at86rf233_init(){
 	set_chan(AT86RF2XX_DEFAULT_CHANNEL);
 
 
-	writeRegister(0x05, 0x0); // tx power
+	writeRegister(0x05, 0xF); // tx power
+	writeRegister(0x16,0x1);
 
 	/* set default options */
 	 set_option(AT86RF2XX_OPT_PROMISCUOUS, 1);
@@ -568,14 +569,15 @@ void tx_exec()
   * @retval int
   */
 
+
  void sleepMode(void)
-   {
+     {
+       /* Enable Power Control clock */
+       __HAL_RCC_PWR_CLK_ENABLE();
 
-     __HAL_RCC_PWR_CLK_ENABLE();
-
-     HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-   }
-
+       /* Enter Sleep Mode */
+       HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+     }
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -609,7 +611,8 @@ int main(void)
   }
   uint8_t irq_mask = 0;
   uint8_t CurrentState = 0;
-
+  HAL_SuspendTick();
+  sleepMode();
 
   /* USER CODE END 2 */
 
@@ -622,7 +625,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  //writeRegister(0x02,0x02);
 	  //send("bla", sizeof("bla"));
-	  sleepMode();
+
 	  CurrentState = get_status(); //Page 37 of datasheet
 	  //uint8_t Interrupt = readRegister(0x0F);
 	  //uint8_t PHY_RSSI = readRegister(0x06); //if bit[7] = 1 (RX_CRC_VALID), FCS is valid
