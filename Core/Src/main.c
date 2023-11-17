@@ -429,12 +429,13 @@ void sram_write(const uint8_t offset,
       CSRESET;
       HAL_SPI_Transmit(&hspi3, &writeCommand, sizeof(writeCommand), HAL_MAX_DELAY);
      // SPI.transfer(writeCommand);
-      HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
-      HAL_SPI_Transmit(&hspi3, data, sizeof(data), HAL_MAX_DELAY);
+      //HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
+     // HAL_SPI_Transmit(&hspi3, data, sizeof(data), HAL_MAX_DELAY);
      // SPI.transfer((char)offset);
-      //for (int b=0; b<len; b++) {
+      for (int b=0; b<len; b++) {
        // SPI.transfer(data[b]);
-      //}
+    	  HAL_SPI_Transmit(&hspi3, data[b], sizeof(data[b]), HAL_MAX_DELAY);
+      }
       CSSET;
   }
 
@@ -462,7 +463,7 @@ void sram_write(const uint8_t offset,
 size_t tx_load(uint8_t *data,
          size_t len, size_t offset)
 {
-	frame_len += (uint8_t)len;
+	frame_len += (uint8_t)len + 50;
 	sram_write(offset + 1, data, len);
 	return offset + len;
 }
@@ -541,7 +542,7 @@ int main(void)
 		  	uint8_t test = 0;
 		  	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 0);
 	  }
-	  uint8_t data[] = {0x0};
+	  uint8_t data[] = {0x0, 0x2,0x2,0x8,0x1,0x4,0x8,0x8};
 
 	  send(data, sizeof(data));
 	  //  unsigned long jetzt = millis();
