@@ -429,13 +429,13 @@ void sram_write(const uint8_t offset,
       CSRESET;
       HAL_SPI_Transmit(&hspi3, &writeCommand, sizeof(writeCommand), HAL_MAX_DELAY);
      // SPI.transfer(writeCommand);
-      //HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
-     // HAL_SPI_Transmit(&hspi3, data, sizeof(data), HAL_MAX_DELAY);
+      HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
+      HAL_SPI_Transmit(&hspi3, data, sizeof(data), HAL_MAX_DELAY);
      // SPI.transfer((char)offset);
-      for (int b=0; b<len; b++) {
+      //for (int b=0; b<len; b++) {
        // SPI.transfer(data[b]);
-    	  HAL_SPI_Transmit(&hspi3, data[b], sizeof(data[b]), HAL_MAX_DELAY);
-      }
+    	//  HAL_SPI_Transmit(&hspi3, data[b], sizeof(data[b]), HAL_MAX_DELAY);
+      //}
       CSSET;
   }
 
@@ -463,7 +463,7 @@ void sram_write(const uint8_t offset,
 size_t tx_load(uint8_t *data,
          size_t len, size_t offset)
 {
-	frame_len += (uint8_t)len + 50;
+	frame_len += (uint8_t)len;
 	sram_write(offset + 1, data, len);
 	return offset + len;
 }
