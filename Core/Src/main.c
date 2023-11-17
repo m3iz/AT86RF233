@@ -523,11 +523,11 @@ void tx_exec()
      //SPI.transfer(readCommand);
      HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
      //SPI.transfer((char)offset);
-     HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
-     HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
-     //for (int b=0; b<len; b++) {
-       //data[b] = SPI.transfer(0x00);
-     //}
+    //HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
+     //HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
+     for (int b=0; b<len; b++) {
+    	 HAL_SPI_Receive(&hspi3, data[b], sizeof(data[b]), HAL_MAX_DELAY);
+     }
      CSSET;
      //digitalWrite(cs_pin, HIGH);
  }
