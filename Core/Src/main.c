@@ -334,7 +334,7 @@ void at86rf233_init(){
 
 
 	writeRegister(0x05, 0xF); // tx power
-	writeRegister(0x16,0x1);
+	writeRegister(0x16,0b100000);
 
 	/* set default options */
 	 set_option(AT86RF2XX_OPT_PROMISCUOUS, 1);
@@ -542,7 +542,7 @@ void tx_exec()
       * the first data byte at position 0.
       */
  #ifndef MODULE_AT86RF231
-     sram_read(offset + 1, data, len);
+     sram_read(offset, data, len);
  #else
      sram_read(offset, data, len);
  #endif
@@ -611,8 +611,8 @@ int main(void)
   }
   uint8_t irq_mask = 0;
   uint8_t CurrentState = 0;
-  HAL_SuspendTick();
-  sleepMode();
+  //HAL_SuspendTick();
+  //	sleepMode();
 
   /* USER CODE END 2 */
 
