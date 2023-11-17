@@ -456,7 +456,7 @@ void sram_write(const uint8_t offset,
 	 } else if (state != AT86RF2XX_STATE_TX_ARET_ON) {
 	 	 idle_state = state;
 	 }
-	 	 writeRegister(0x02,0x02);
+	 	 set_state(AT86RF2XX_STATE_TX_ARET_ON);
 	     frame_len = IEEE802154_FCS_LEN;
  }
 
@@ -485,6 +485,82 @@ void tx_exec()
 	tx_exec();
     return len;
   }
+
+ void fb_read(uint8_t *data,
+                        const size_t len)
+ {
+     uint8_t readCommand = AT86RF2XX_ACCESS_FB | AT86RF2XX_ACCESS_READ;
+     //digitalWrite(cs_pin, LOW);
+     CSRESET;
+     //SPI.transfer(readCommand);
+     HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
+     HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
+     //for (int b=0; b<len; b++) {
+       //data[b] = SPI.transfer(0x00);
+     //}
+     //digitalWrite(cs_pin, HIGH);
+     CSSET;
+ }
+
+ size_t rx_len(void)
+ {
+     uint8_t phr;
+     fb_read(&phr, 1);
+
+     /* ignore MSB (refer p.80) and substract length of FCS field */
+     return (size_t)((phr & 0x7f) - 2);
+ }
+
+ void sram_read(const uint8_t offset,
+                          uint8_t *data,
+                          const size_t len)
+ {
+     uint8_t readCommand = AT86RF2XX_ACCESS_SRAM | AT86RF2XX_ACCESS_READ;
+     //digitalWrite(cs_pin, LOW);
+     CSRESET;
+     //SPI.transfer(readCommand);
+     HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
+     //SPI.transfer((char)offset);
+     HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
+     HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
+     if(data[0]==0x0)HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
+     //for (int b=0; b<len; b++) {
+    	// HAL_SPI_Receive(&hspi3, data[b], sizeof(data[b]), HAL_MAX_DELAY);
+     //}
+     CSSET;
+     //digitalWrite(cs_pin, HIGH);
+ }
+
+ void rx_read(uint8_t *data, size_t len, size_t offset)
+ {
+     /* when reading from SRAM, the different chips from the AT86RF2xx family
+      * behave differently: the AT86F233, the AT86RF232 and the ATRF86212B return
+      * frame length field (PHR) at position 0 and the first data byte at
+      * position 1.
+      * The AT86RF231 does not return the PHR field and return
+      * the first data byte at position 0.
+      */
+ #ifndef MODULE_AT86RF231
+     sram_read(offset+1, data, len);
+ #else
+     sram_read(offset, data, len);
+ #endif
+ }
+
+ void at86rf2xx_receive_data() {
+   /*  print the length of the frame
+    *  (including the header)
+    */
+   size_t pkt_len = rx_len();
+
+   /*  Print the frame, byte for byte  */
+   uint8_t data[pkt_len];
+   rx_read(data, pkt_len, 0);
+
+
+   /* How many frames is this so far?  */
+
+ }
 /* USER CODE END 0 */
 
 /**
@@ -539,8 +615,8 @@ int main(void)
 	  uint8_t irq_mask = readRegister(AT86RF2XX_REG__IRQ_STATUS);
 
 	  if (irq_mask & AT86RF2XX_IRQ_STATUS_MASK__RX_START){
-		  	uint8_t test = 0;
-		  	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 0);
+		  	//uint8_t test = 0;
+		  	//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 	  }
 	  uint8_t data[] = {0x0, 0x2,0x2,0x8,0x1,0x4,0x8,0x8};
 
