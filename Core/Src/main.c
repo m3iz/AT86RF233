@@ -495,8 +495,9 @@ void tx_exec()
      //digitalWrite(cs_pin, LOW);
      CSRESET;
      //SPI.transfer(readCommand);
+     uint8_t dd[50];
      HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
-     HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
+     HAL_SPI_Receive(&hspi3, dd, sizeof(dd), HAL_MAX_DELAY);
      //for (int b=0; b<len; b++) {
        //data[b] = SPI.transfer(0x00);
      //}
