@@ -470,8 +470,9 @@ size_t tx_load(uint8_t *data,
 
 void tx_exec()
 {
-    /* write frame length field in FIFO */
-    sram_write(0, &(frame_len), 1);
+    /* write frame length field in FIFO 0x8,0x7,0x5,0x5,0x4,0x3,0x2 */
+	uint8_t frm[]={0x8,0x7,0x6,0x5,0x4,0x3,0x2};
+    sram_write(0, frm, sizeof(frm));
     /* trigger sending of pre-loaded frame */
     writeRegister(AT86RF2XX_REG__TRX_STATE, AT86RF2XX_TRX_STATE__TX_START);
     /*if (at86rf2xx.event_cb && (at86rf2xx.options & AT86RF2XX_OPT_TELL_TX_START)) {
@@ -481,7 +482,7 @@ void tx_exec()
  int send(uint8_t *data, size_t len)
   {
 	tx_prepare();
-	tx_load(data, len, 0);
+	//tx_load(data, len, 0);
 	tx_exec();
     return len;
   }
@@ -618,7 +619,7 @@ int main(void)
 		  	//uint8_t test = 0;
 		  	//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 	  }
-	  uint8_t data[] = {0x0, 0x2,0x2,0x8,0x1,0x4,0x8,0x8};
+	  uint8_t data[] = {0x5};
 
 	  send(data, sizeof(data));
 	  //  unsigned long jetzt = millis();
