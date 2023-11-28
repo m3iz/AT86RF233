@@ -1,3 +1,4 @@
+
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -37,7 +38,7 @@
 /* USER CODE BEGIN PM */
 /* Constants */
 
-
+int tval = 0;
 int received = 0;
 int frame_len = 0;
 int idle_state = 0;
@@ -333,8 +334,7 @@ void at86rf233_init(){
 	set_chan(AT86RF2XX_DEFAULT_CHANNEL);
 
 
-	writeRegister(0x05, 0xF); // tx power
-	writeRegister(0x16,0b100000);
+	writeRegister(0x05, 0x0); // tx power
 
 	/* set default options */
 	 set_option(AT86RF2XX_OPT_PROMISCUOUS, 1);
@@ -495,9 +495,8 @@ void tx_exec()
      //digitalWrite(cs_pin, LOW);
      CSRESET;
      //SPI.transfer(readCommand);
-     uint8_t dd[50];
      HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
-     HAL_SPI_Receive(&hspi3, dd, sizeof(dd), HAL_MAX_DELAY);
+     HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
      //for (int b=0; b<len; b++) {
        //data[b] = SPI.transfer(0x00);
      //}
@@ -507,11 +506,11 @@ void tx_exec()
 
  size_t rx_len(void)
  {
-     uint8_t phr;
-     fb_read(&phr, 1);
+     uint8_t phr[7];
+     fb_read(&phr, 7);
 
      /* ignore MSB (refer p.80) and substract length of FCS field */
-     return (size_t)((phr & 0x7f) - 2);
+     return (size_t)((phr[0] & 0x7f) - 2);
  }
 
  void sram_read(const uint8_t offset,
@@ -524,11 +523,11 @@ void tx_exec()
      //SPI.transfer(readCommand);
      HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
      //SPI.transfer((char)offset);
-    //HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
-     //HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
-     for (int b=0; b<len; b++) {
-    	 HAL_SPI_Receive(&hspi3, data[b], sizeof(data[b]), HAL_MAX_DELAY);
-     }
+     HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
+     HAL_SPI_Receive(&hspi3, data, len, HAL_MAX_DELAY);
+     //for (int b=0; b<len; b++) {
+       //data[b] = SPI.transfer(0x00);
+     //}
      CSSET;
      //digitalWrite(cs_pin, HIGH);
  }
@@ -543,7 +542,7 @@ void tx_exec()
       * the first data byte at position 0.
       */
  #ifndef MODULE_AT86RF231
-     sram_read(offset, data, len);
+     sram_read(offset + 1, data, len);
  #else
      sram_read(offset, data, len);
  #endif
@@ -554,10 +553,11 @@ void tx_exec()
     *  (including the header)
     */
    size_t pkt_len = rx_len();
-
+   //if(tval==0)tval=pkt_len;
+   if(pkt_len==6)HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
    /*  Print the frame, byte for byte  */
-   uint8_t data[pkt_len];
-   rx_read(data, pkt_len, 0);
+   uint8_t data[pkt_len+10];
+   rx_read(data, pkt_len+10, 0);
 
 
    /* How many frames is this so far?  */
@@ -570,15 +570,14 @@ void tx_exec()
   * @retval int
   */
 
-
  void sleepMode(void)
-     {
-       /* Enable Power Control clock */
-       __HAL_RCC_PWR_CLK_ENABLE();
+   {
 
-       /* Enter Sleep Mode */
-       HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-     }
+     __HAL_RCC_PWR_CLK_ENABLE();
+
+     HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+   }
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -612,8 +611,7 @@ int main(void)
   }
   uint8_t irq_mask = 0;
   uint8_t CurrentState = 0;
-  //HAL_SuspendTick();
-  //	sleepMode();
+
 
   /* USER CODE END 2 */
 
@@ -626,7 +624,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  //writeRegister(0x02,0x02);
 	  //send("bla", sizeof("bla"));
-
+	  //sleepMode();
 	  CurrentState = get_status(); //Page 37 of datasheet
 	  //uint8_t Interrupt = readRegister(0x0F);
 	  //uint8_t PHY_RSSI = readRegister(0x06); //if bit[7] = 1 (RX_CRC_VALID), FCS is valid
@@ -635,7 +633,7 @@ int main(void)
 
 	  if (irq_mask & AT86RF2XX_IRQ_STATUS_MASK__RX_START){
 		  	//uint8_t test = 0;
-		  	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
+		  	//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 	  }
 	 // else counter ++;
 	  //if(counter>4){
@@ -655,7 +653,6 @@ int main(void)
 	  //size_t len = 7; // Length of the data in bytes
 	 // send(data, sizeof(data));
 	  //  unsigned long jetzt = millis();
-
 	  // This can be used to write status updates
 	  //  if (jetzt - zuletzt > Intervall)
 	  //  {
