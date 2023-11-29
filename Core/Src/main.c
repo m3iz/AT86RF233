@@ -556,8 +556,8 @@ void tx_exec()
    //if(tval==0)tval=pkt_len;
    if(pkt_len==6)HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
    /*  Print the frame, byte for byte  */
-   uint8_t data[pkt_len+10];
-   rx_read(data, pkt_len+10, 0);
+   uint8_t data[pkt_len];
+   rx_read(data, pkt_len, 0);
 
 
    /* How many frames is this so far?  */
