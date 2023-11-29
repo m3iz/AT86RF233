@@ -438,6 +438,21 @@ void sram_write(const uint8_t offset,
       //}
       CSSET;
   }
+void fb_write(uint8_t *data,
+                       const size_t len)
+{
+    uint8_t readCommand = AT86RF2XX_ACCESS_FB | AT86RF2XX_ACCESS_WRITE;
+    //digitalWrite(cs_pin, LOW);
+    CSRESET;
+    //SPI.transfer(readCommand);
+    HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
+    HAL_SPI_Transmit(&hspi3, data, len, HAL_MAX_DELAY);
+    //for (int b=0; b<len; b++) {
+      //data[b] = SPI.transfer(0x00);
+    //}
+    //digitalWrite(cs_pin, HIGH);
+    CSSET;
+}
 
 
 
@@ -464,7 +479,7 @@ size_t tx_load(uint8_t *data,
          size_t len, size_t offset)
 {
 	frame_len += (uint8_t)len;
-	sram_write(offset + 1, data, len);
+	fb_write(data, len);
 	return offset + len;
 }
 
@@ -472,7 +487,8 @@ void tx_exec()
 {
     /* write frame length field in FIFO 0x8,0x7,0x5,0x5,0x4,0x3,0x2 */
 	uint8_t frm[]={0x8,0x7,0x6,0x5,0x4,0x3,0x2};
-    sram_write(0, frm, sizeof(frm));
+    fb_write(frm, sizeof(frm));
+    //sram_check(0);
     /* trigger sending of pre-loaded frame */
     writeRegister(AT86RF2XX_REG__TRX_STATE, AT86RF2XX_TRX_STATE__TX_START);
     /*if (at86rf2xx.event_cb && (at86rf2xx.options & AT86RF2XX_OPT_TELL_TX_START)) {
@@ -484,6 +500,7 @@ void tx_exec()
 	tx_prepare();
 	//tx_load(data, len, 0);
 	tx_exec();
+	//sram_check(0);
     return len;
   }
 
@@ -531,6 +548,24 @@ void tx_exec()
      CSSET;
      //digitalWrite(cs_pin, HIGH);
  }
+ void sram_check(uint8_t offset)
+  {
+	  uint8_t data[frame_len];
+      uint8_t readCommand = AT86RF2XX_ACCESS_SRAM | AT86RF2XX_ACCESS_READ;
+      //digitalWrite(cs_pin, LOW);
+      CSRESET;
+      //SPI.transfer(readCommand);
+      HAL_SPI_Transmit(&hspi3, &readCommand, sizeof(readCommand), HAL_MAX_DELAY);
+      //SPI.transfer((char)offset);
+      //HAL_SPI_Transmit(&hspi3, &offset, sizeof(offset), HAL_MAX_DELAY);
+      HAL_SPI_Receive(&hspi3, data, sizeof(data), HAL_MAX_DELAY);
+      if(data[0]==0x0)HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
+      //for (int b=0; b<len; b++) {
+     	// HAL_SPI_Receive(&hspi3, data[b], sizeof(data[b]), HAL_MAX_DELAY);
+      //}
+      CSSET;
+      //digitalWrite(cs_pin, HIGH);
+  }
 
  void rx_read(uint8_t *data, size_t len, size_t offset)
  {
@@ -619,7 +654,7 @@ int main(void)
 		  	//uint8_t test = 0;
 		  	//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 	  }
-	  uint8_t data[] = {0x5};
+	  uint8_t data[] = {"priveti"};
 
 	  send(data, sizeof(data));
 	  //  unsigned long jetzt = millis();
