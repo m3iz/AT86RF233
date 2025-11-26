@@ -3,11 +3,17 @@
 
 #include "stm32l4xx_hal.h"
 
-uint16_t options;
-uint8_t seq_nr;
-int frame_len;
-int idle_state0;
-int idle_state;
+extern uint16_t options;
+extern uint8_t seq_nr;
+extern int frame_len;
+extern int idle_state0;
+extern int idle_state;
+
+
+#define AT86RF2XX_MIN_CHANNEL           (11U)
+#define AT86RF2XX_MAX_CHANNEL           (26U)
+#define AT86RF2XX_DEFAULT_CHANNEL       (11U)
+
 
 uint8_t readRegister(const uint8_t addr);
 

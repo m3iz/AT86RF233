@@ -57,20 +57,18 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-
-#define AT86RF2XX_MIN_CHANNEL           (11U)
-#define AT86RF2XX_MAX_CHANNEL           (26U)
-#define AT86RF2XX_DEFAULT_CHANNEL       (11U)
 #define LED_Pin GPIO_PIN_7
 #define LED_GPIO_Port GPIOA
 #define IRQ_Pin GPIO_PIN_10
 #define IRQ_GPIO_Port GPIOC
+#define IRQ_EXTI_IRQn EXTI15_10_IRQn
 #define CS_Pin GPIO_PIN_11
 #define CS_GPIO_Port GPIOC
 #define SLP_Pin GPIO_PIN_6
 #define SLP_GPIO_Port GPIOB
 #define RESET_Pin GPIO_PIN_8
 #define RESET_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 #define AT86RF2XX_XAH_CTRL_1__AACK_FLTR_RES_FT                  (0x20)
 #define AT86RF2XX_XAH_CTRL_1__AACK_UPLD_RES_FT                  (0x10)

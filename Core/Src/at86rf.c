@@ -3,18 +3,28 @@
 
 extern SPI_HandleTypeDef hspi3;
 
-uint8_t readRegister(const uint8_t addr)
+uint16_t options = 0;
+uint8_t seq_nr = 0;
+int frame_len = 0;
+int idle_state0 = 0;
+int idle_state = 0;
+
+uint8_t readRegister(uint8_t reg)
 {
-    uint8_t value;
-    uint8_t readCommand = addr | AT86RF2XX_ACCESS_REG | AT86RF2XX_ACCESS_READ;
+    uint8_t value = 0;
+
     HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
-    HAL_SPI_TransmitReceive(&hspi3, &readCommand, &value, sizeof(value), HAL_MAX_DELAY);
-    //HAL_SPI_Transmit(&hspi3, readCommand, 1, HAL_MAX_DELAY);
-    HAL_SPI_Receive(&hspi3, &value, sizeof(value), HAL_MAX_DELAY);
-    //HAL_SPI_TransmitReceive(&hspi3, 0x00, value, 1, HAL_MAX_DELAY);
+    // Важно: небольшая задержка после падения CS (хотя бы 1–2 цикла)
+    __NOP(); __NOP();
+
+    uint8_t cmd = reg | 0x80;                   // 0b10xx_xxxx — чтение регистра
+    HAL_SPI_Transmit(&hspi3, &cmd, 1, 100);
+
+    HAL_SPI_Receive(&hspi3, &value, 1, 100);    // просто приём, без dummy
+
     HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
 
-    return (uint8_t)value;
+    return value;
 }
 
 void writeRegister(const uint8_t addr,
@@ -294,7 +304,8 @@ void at86rf233_init(){
 	    /* clear interrupt flags */
 	readRegister(AT86RF2XX_REG__IRQ_STATUS);
 
-	set_state(6); //16 - RX_ACACK 6 - rx 25 - tx
+	//set_state(6); //16 - RX_ACACK 6 - rx 25 - tx
+	set_state(22);
 	////////////////////////////////////////////////////////////
 
 
@@ -492,12 +503,12 @@ void tx_exec()
     */
    size_t pkt_len = rx_len();
    //if(tval==0)tval=pkt_len;
-   if(pkt_len==6)HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
+   //if(pkt_len==6)HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
    /*  Print the frame, byte for byte  */
    uint8_t data[pkt_len];
    rx_read(data, pkt_len, 0);
-   if(strcmp("cheeel", data))
-	   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
+   //if(strcmp("cheeel", data))
+	   //HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 
    /* How many frames is this so far?  */
 

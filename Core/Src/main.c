@@ -1,4 +1,3 @@
-
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -19,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "at86rf.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -43,7 +41,7 @@ int tval = 0;
 int received = 0;
 
 uint8_t state;                      /**< current state of the radio */
-
+uint8_t last_rssi = 0;
 int connected = 0;
 
 /* USER CODE END PM */
@@ -60,14 +58,34 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI3_Init(void);
 /* USER CODE BEGIN PFP */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if (GPIO_Pin == IRQ_Pin)
+    {
+        uint8_t irq = readRegister(AT86RF2XX_REG__IRQ_STATUS);
 
+        if (irq & AT86RF2XX_IRQ_STATUS_MASK__TRX_END)
+        {
+            uint8_t rssi_raw = readRegister(0x07);
+            if(rssi_raw>=30)HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin,1);
+            		else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin,0);
+        }
+    }
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -114,7 +132,7 @@ int main(void)
 	  //sleepMode();
 	  CurrentState = get_status(); //Page 37 of datasheet
 	  //uint8_t Interrupt = readRegister(0x0F);
-	  //uint8_t PHY_RSSI = readRegister(0x06); //if bit[7] = 1 (RX_CRC_VALID), FCS is valid
+
 
 	  irq_mask = readRegister(AT86RF2XX_REG__IRQ_STATUS);
 
@@ -127,14 +145,15 @@ int main(void)
 		  //NVIC_SystemReset();
 	  	//  }
 	  if (irq_mask & AT86RF2XX_IRQ_STATUS_MASK__TRX_END)
-	   {
-	     //if(state == AT86RF2XX_STATE_RX_AACK_ON || state == AT86RF2XX_STATE_BUSY_RX_AACK) {
+	  {
+	      at86rf2xx_receive_data();
 
-	       at86rf2xx_receive_data();
-	       HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 0);
+	      uint8_t rssi_raw = readRegister(0x06);
+	      uint8_t rssi_5bit = rssi_raw & 0x1F;
+	      int8_t rssi_dbm = -90 + rssi_5bit;   // формула из даташита
 
-	     //}
-	   }
+	      printf("RSSI = %d dBm\n", rssi_dbm);
+	  }
 
 	 // uint8_t data[] = {0xa7,0x1, 0x431, 'h', 'e', 'l', 'l', 'o'};
 	  //size_t len = 7; // Length of the data in bytes
@@ -181,6 +200,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -193,6 +213,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -256,6 +277,9 @@ static void MX_SPI3_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -280,7 +304,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : IRQ_Pin */
   GPIO_InitStruct.Pin = IRQ_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(IRQ_GPIO_Port, &GPIO_InitStruct);
 
@@ -298,6 +322,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -318,8 +349,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -335,4 +365,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
